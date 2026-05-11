@@ -1,11 +1,12 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication
+
+from app.window import MainWindow
+
 
 app = QApplication(sys.argv)
 
-window = QMainWindow()
-window.setWindowTitle("Explorateur CSV")
-window.resize(1280, 720)
+window = MainWindow()
 window.show()
 
 sys.exit(app.exec_())
