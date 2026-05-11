@@ -19,4 +19,5 @@ class MainWindow(QMainWindow):
         self.label_info = QLabel("Aucun fichier ouvert")
         top_bar.addWidget(self.btn_open)
         top_bar.addWidget(self.label_info)
+        top_bar.addStretch()  # Ajoute un espace flexible pour pousser les éléments vers la gauche
         layout.addLayout(top_bar)
