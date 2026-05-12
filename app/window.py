@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout , QLabel, QSplitter
+    QHeaderView, QMainWindow, QTableView, QWidget, QVBoxLayout,
+    QPushButton, QHBoxLayout , QLabel, QSplitter
 )
 from PyQt5.QtCore import Qt
 
@@ -27,6 +28,12 @@ class MainWindow(QMainWindow):
         layout.addLayout(top_bar)
 
         # Séparateur
-
         splitter = QSplitter(Qt.Vertical)
+
+        self.table = QTableView()
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        splitter.addWidget(self.table)
+
+
+        
         layout.addWidget(splitter)
