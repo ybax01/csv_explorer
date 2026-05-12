@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (
-    QHeaderView, QMainWindow, QTableView, QWidget, QVBoxLayout,
+    QComboBox, QHeaderView, QMainWindow, QTableView, QWidget, QVBoxLayout,
     QPushButton, QHBoxLayout , QLabel, QSplitter
 )
 from PyQt5.QtCore import Qt
@@ -34,6 +34,35 @@ class MainWindow(QMainWindow):
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         splitter.addWidget(self.table)
 
+        # Bas
+        bottom = QWidget()
+        bottom_layout = QVBoxLayout(bottom)
 
-        
+        controls = QHBoxLayout()
+        controls.addWidget(QLabel("Type:"))
+        self.combo_type = QComboBox()
+        self.combo_type.addItems(["Histogramme", "Bar Chart", "Line Chart", "Scatter Plot"])
+        controls.addWidget(self.combo_type)
+        controls.addWidget(QLabel("X:"))
+        self.combo_x = QComboBox()
+        controls.addWidget(self.combo_x)
+        controls.addWidget(QLabel("Y:"))
+        self.combo_y = QComboBox()
+        controls.addWidget(self.combo_y)
+        self.btn_plot = QPushButton("Plot")
+        controls.addWidget(self.btn_plot)
+        controls.addStretch()
+        bottom_layout.addLayout(controls)
+
+
+        #chart
+        self.chart_area = QLabel("Aperçu du graphique")
+        self.chart_area.setAlignment(Qt.AlignCenter)
+
+        bottom_layout.addWidget(self.chart_area)
+
+        splitter.addWidget(bottom)
+
+        splitter.setSizes([400, 400])
+
         layout.addWidget(splitter)
