@@ -1,4 +1,8 @@
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout , QLabel
+from PyQt5.QtWidgets import (
+    QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout , QLabel, QSplitter
+)
+from PyQt5.QtCore import Qt
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -13,7 +17,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(central)
 
         
-        #Haute partie
+        # Haute partie
         top_bar = QHBoxLayout()
         self.btn_open = QPushButton("Ouvrir CSV")
         self.label_info = QLabel("Aucun fichier ouvert")
@@ -21,3 +25,8 @@ class MainWindow(QMainWindow):
         top_bar.addWidget(self.label_info)
         top_bar.addStretch()  # Ajoute un espace flexible pour pousser les éléments vers la gauche
         layout.addLayout(top_bar)
+
+        # Séparateur
+
+        splitter = QSplitter(Qt.Vertical)
+        layout.addWidget(splitter)
