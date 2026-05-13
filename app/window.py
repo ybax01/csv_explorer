@@ -4,6 +4,9 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
+from app.model import TableModel
+
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -31,6 +34,10 @@ class MainWindow(QMainWindow):
         splitter = QSplitter(Qt.Vertical)
 
         self.table = QTableView()
+
+        self.model = TableModel()
+        self.table.setModel(self.model)
+
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         splitter.addWidget(self.table)
 
