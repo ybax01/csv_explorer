@@ -70,10 +70,16 @@ class MainWindow(QMainWindow):
 
 
         #chart
+        """
         self.chart_area = QLabel("Aperçu du graphique")
         self.chart_area.setAlignment(Qt.AlignCenter)
-
         bottom_layout.addWidget(self.chart_area)
+        """
+
+        self.figure = Figure()
+        self.canvas = FigureCanvas(self.figure)
+        bottom_layout.addWidget(self.canvas)
+
 
         splitter.addWidget(bottom)
 
@@ -82,6 +88,8 @@ class MainWindow(QMainWindow):
         layout.addWidget(splitter)
 
         self.btn_open.clicked.connect(self.open_file)
+
+        self.btn_plot.clicked.connect(self.plot)
 
 
     def open_file(self):
@@ -99,3 +107,40 @@ class MainWindow(QMainWindow):
             self.combo_y.addItems(cols)
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Fichier non lu:\n{e}")
+
+
+    def plot(self):
+        col_x = self.combo_x.currentText()
+        col_y = self.combo_y.currentText()
+        chart_type = self.combo_type.currentText()
+
+        self.figure.clear()
+        ax = self.figure.add_subplot(1, 1, 1)
+        
+        try:
+            if chart_type == "Histogramme":
+                self.df[col_x].dropna().astype(float).hist(ax=ax, bins=25)
+                ax.set_title(f"Histogramme de {col_x}")
+
+            elif chart_type == "Bar Chart":
+                self.df[col_x].value_counts().head(15).plot(kind="bar", ax=ax)
+
+                ax.set_title(f"Bar Chart de {col_x}")
+
+            elif chart_type == "Scatter Plot":
+                x = pd.to_numeric(self.df[col_x], errors="coerce")
+                y = pd.to_numeric(self.df[col_y], errors="coerce")
+                ax.scatter(x, y, alpha=0.4)
+                ax.set_xlabel(col_x)
+                ax.set_ylabel(col_y)
+                ax.set_title(f"{col_x} vs {col_y}")
+
+            elif chart_type == "Line Chart":
+                self.df[col_x].dropna().astype(float).reset_index(drop=True).plot(ax=ax)
+                ax.set_title(f"Line — {col_x}")
+            
+        except Exception as e:
+            ax.text(0.5, 0.5, f"Erreur: {e}", transform=ax.transAxes, ha="center")
+
+        self.figure.tight_layout()
+        self.canvas.draw()
