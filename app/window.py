@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         controls = QHBoxLayout()
         controls.addWidget(QLabel("Type:"))
         self.combo_type = QComboBox()
-        self.combo_type.addItems(["Histogramme", "Bar Chart", "Line Chart", "Scatter Plot"])
+        self.combo_type.addItems(["Histogramme", "Barres", "Courbe", "Scatter Plot"])
         controls.addWidget(self.combo_type)
         controls.addWidget(QLabel("X:"))
         self.combo_x = QComboBox()
@@ -122,7 +122,7 @@ class MainWindow(QMainWindow):
                 self.df[col_x].dropna().astype(float).hist(ax=ax, bins=25)
                 ax.set_title(f"Histogramme de {col_x}")
 
-            elif chart_type == "Bar Chart":
+            elif chart_type == "Barres":
                 self.df[col_x].value_counts().head(15).plot(kind="bar", ax=ax)
 
                 ax.set_title(f"Bar Chart de {col_x}")
@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
                 ax.set_ylabel(col_y)
                 ax.set_title(f"{col_x} vs {col_y}")
 
-            elif chart_type == "Line Chart":
+            elif chart_type == "Courbe":
                 self.df[col_x].dropna().astype(float).reset_index(drop=True).plot(ax=ax)
                 ax.set_title(f"Line — {col_x}")
             
