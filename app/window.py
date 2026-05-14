@@ -87,11 +87,13 @@ class MainWindow(QMainWindow):
 
         layout.addWidget(splitter)
 
+        # Connections du buttons aux fonctions
         self.btn_open.clicked.connect(self.open_file)
 
         self.btn_plot.clicked.connect(self.plot)
 
 
+    # Ouvrir un fichier CSV
     def open_file(self):
         path, _ = QFileDialog.getOpenFileName(self, "Ouvrir un fichier CSV", "", "Fichiers CSV (*.csv)")
         if not path:
@@ -108,7 +110,7 @@ class MainWindow(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Fichier non lu:\n{e}")
 
-
+    # Affichage du graphique
     def plot(self):
         col_x = self.combo_x.currentText()
         col_y = self.combo_y.currentText()

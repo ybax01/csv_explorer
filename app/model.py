@@ -12,6 +12,7 @@ class TableModel(QAbstractTableModel):
     def columnCount(self, parent = None):
         return len(self.df.columns)
     
+    # Affichage des données
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
             return None
@@ -22,6 +23,7 @@ class TableModel(QAbstractTableModel):
             return str(val)
         return None
     
+    # Affichage des en-têtes
     def headerData(self, section, orientation, role=Qt.DisplayRole):
         if role != Qt.DisplayRole:
             return None
@@ -29,6 +31,7 @@ class TableModel(QAbstractTableModel):
             return str(self.df.columns[section])
         return str(section + 1)
     
+    # Chargement d'un nouveau DataFrame
     def load(self, df):
         self.layoutAboutToBeChanged.emit()
         self.df = df
