@@ -1,11 +1,18 @@
 from PyQt5.QtWidgets import (
     QComboBox, QHeaderView, QMainWindow, QTableView, QWidget, QVBoxLayout,
-    QPushButton, QHBoxLayout , QLabel, QSplitter
+    QPushButton, QHBoxLayout , QLabel, QSplitter,
+    QFileDialog, QMessageBox
 )
 from PyQt5.QtCore import Qt
 
 from app.model import TableModel
 
+import pandas as pd
+
+import matplotlib
+matplotlib.use("Qt5Agg")
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 
 class MainWindow(QMainWindow):
@@ -73,3 +80,22 @@ class MainWindow(QMainWindow):
         splitter.setSizes([400, 400])
 
         layout.addWidget(splitter)
+
+        self.btn_open.clicked.connect(self.open_file)
+
+
+    def open_file(self):
+        path, _ = QFileDialog.getOpenFileName(self, "Ouvrir un fichier CSV", "", "Fichiers CSV (*.csv)")
+        if not path:
+            return
+        try:
+            self.df = pd.read_csv(path)
+            self.model.load(self.df)
+            self.label_info.setText(f"{len(self.df)} rows, {len(self.df.columns)} columns")
+            cols = list(self.df.columns)
+            self.combo_x.clear()
+            self.combo_x.addItems(cols)
+            self.combo_y.clear()
+            self.combo_y.addItems(cols)
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Fichier non lu:\n{e}")

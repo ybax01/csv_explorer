@@ -4,7 +4,7 @@ from PyQt5.QtCore import QAbstractTableModel, Qt
 class TableModel(QAbstractTableModel):
     def __init__(self, df=pd.DataFrame()):
         super().__init__()
-        self._df = df
+        self.df = df
 
     def rowCount(self, parent=None):
         return len(self.df)
